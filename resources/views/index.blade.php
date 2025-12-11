@@ -22,81 +22,91 @@
 @endsection
 
 @section('index')
+<!-- Categories -->
+    <section>
+         <h2 class="fw-bold text-center mb-4">Shop by Category</h2>
+
+    <div class="row g-4 justify-content-center">
+
+        {{-- Women Fashion --}}
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="category-box">
+                <i class="bi bi-bag-heart fs-1"></i>
+                <h5 class="fw-semibold mt-2">Women Fashion</h5>
+            </div>
+        </div>
+
+        {{-- Men Fashion --}}
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="category-box">
+                <i class="bi bi-person-standing fs-1"></i>
+                <h5 class="fw-semibold mt-2">Men Fashion</h5>
+            </div>
+        </div>
+
+        {{-- Kids & Baby --}}
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="category-box">
+                <i class="bi bi-emoji-smile fs-1"></i>
+                <h5 class="fw-semibold mt-2">Kids & Baby</h5>
+            </div>
+        </div>
+
+        {{-- Electronics --}}
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="category-box">
+                <i class="bi bi-phone fs-1"></i>
+                <h5 class="fw-semibold mt-2">Electronics</h5>
+            </div>
+        </div>
+
+        {{-- Home & Living --}}
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="category-box">
+                <i class="bi bi-house-door fs-1"></i>
+                <h5 class="fw-semibold mt-2">Home & Living</h5>
+            </div>
+        </div>
+
+        {{-- Jewelry --}}
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="category-box">
+                <i class="bi bi-gem fs-1"></i>
+                <h5 class="fw-semibold mt-2">Jewelry</h5>
+            </div>
+        </div>
+    </section> 
+
 
     <!-- Featured Products Section -->
 <section class="container my-5">
     <h2 class="fw-bold text-center mb-4">Featured Products</h2>
 
-    <div class="row g-4">
+  <div class="row g-4">
+    @foreach($products ?? [] as $product)
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card shadow-sm">
+            
+            <div class="product-img-wrapper">
+                @if($product->product_image)
+                    <img src="{{ asset('storage/products/'.$product->product_image) }}" 
+                         class="product-img w-100" 
+                         alt="{{ $product->product_title }}">
+                @else
+                    <div class="no-image">No Image</div>
+                @endif
+            </div>
 
-        @foreach($products ?? [] as $product)
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="product-card">
-                <a href="{{ route('productdetails', $product->id) }}">
-                    <img src="{{ asset('storage/products/'.$product->product_image) }}" class="product-img w-100" alt="Product">
+            <div class="product-footer p-3 text-center">
+                <h6 class="fw-semibold">{{ $product->product_title }}</h6>
+                <p class="text-primary fw-bold mb-3">${{ number_format($product->product_price, 2) }}</p>
+                <a href="{{ route('productdetails', $product->id) }}" 
+                   class="btn btn-outline-dark w-100 rounded-pill">
+                   View Details
                 </a>
-
-                <div class="p-3">
-                    <h6 class="fw-semibold">{{ $product->product_title }}</h6>
-                    <p class="text-primary fw-bold">${{ $product->product_price }}</p>
-
-                    <a href="{{ route('productdetails', $product->id) }}" class="btn btn-outline-dark w-100 rounded-pill">View Details</a>
-                </div>
             </div>
+
         </div>
-        @endforeach
-
-    </div>
-</section>
-<!-- Categories -->
-<section class="categories-section container my-5">
-    <h2 class="fw-bold text-center mb-4">Shop by Watch Category</h2>
-
-
-    <div class="row g-4 justify-content-center">
-
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="category-box">
-                <i class="bi bi-smartwatch fs-1"></i>
-                <h5 class="fw-semibold mt-2">Smartwatches</h5>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="category-box">
-                <i class="bi bi-watch fs-1"></i>
-                <h5 class="fw-semibold mt-2">Luxury Watches</h5>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="category-box">
-                <i class="bi bi-clock-history fs-1"></i>
-                <h5 class="fw-semibold mt-2">Automatic Watches</h5>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="category-box">
-                <i class="bi bi-stopwatch fs-1"></i>
-                <h5 class="fw-semibold mt-2">Chronograph Watches</h5>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="category-box">
-                <i class="bi bi-droplet fs-1"></i>
-                <h5 class="fw-semibold mt-2">Diver Watches</h5>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="category-box">
-                <i class="bi bi-compass fs-1"></i>
-                <h5 class="fw-semibold mt-2">Field Watches</h5>
-            </div>
-        </div>
-
     </div>
 </section>
 

@@ -13,16 +13,23 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    @vite('resources/css/master.css')
-    @vite('resources/css/hero.css')
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    @vite('resources/css/app.css')
 
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+        }
 
+    </style>
 
 </head>
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-expand-md shadow-sm fixed-top">
+<nav class="navbar navbar-expand-lg shadow-sm fixed-top">
     <div class="container">
         <a class="navbar-brand fw-bold fs-3" href="{{ route('index') }}">MyShop</a>
 
@@ -61,19 +68,14 @@
         </div>
     </div>
 </nav>
-@yield('hero')
-<main class="pt-5 pb-5">
-    <section class="container my-5">
-        @yield('index')
-        @yield('product_details')
-        @yield('view_cart')
-        @yield('checkout')
-    </section>
-</main>
 
+<section class="container my-5">
+    @yield('index')
+    @yield('product_details')
+</section>
 
 <!-- Footer -->
-<footer class="text-center text-white fixed-bottom bg-dark py-3 align-items-center p-4 mt-5">
+<footer class="text-center text-white">
     <p class="mb-1">&copy; 2025 MyShop. All Rights Reserved.</p>
 
     <div>
@@ -83,16 +85,8 @@
     </div>
 </footer>
 
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Auto-hide alerts (Bootstrap)
-    setTimeout(() => {
-        document.querySelectorAll('.alert').forEach(alert => {
-            let bsAlert = new bootstrap.Alert(alert);
-            bsAlert.close();
-        });
-    }, 2000);
-</script>
 
 </body>
 </html>
