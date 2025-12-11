@@ -3,7 +3,14 @@
 
 @section('view_category')
 <div class="card shadow-sm p-4">
-    <h4 class="mb-3">All Categories</h4>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">All Category</h4>
+
+    <a href="{{ route('admin.addcategory') }}" class="btn btn-primary me-5">
+        Add Category
+    </a>
+</div>
+
  {{-- Success message --}}
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert"><strong>{{ session('success') }}</strong>

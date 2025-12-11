@@ -27,7 +27,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('admin.addproduct') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.postaddproduct') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="row g-3">
@@ -45,13 +45,19 @@
                         </div>
 
                         {{-- Category --}}
-                        <div class="col-12 col-md-6">
+                        {{-- <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Category</label>
                             <select name="product_category" class="form-select" required>
-                                <option value="">-- Select Category --</option>
-                                <option value="1">G-shock</option>
-                                <option value="2">Baby G</option>
-                            </select>
+                            <option value="">-- Select Category --</option>
+
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ $product->product_category == $category->id ? 'selected' : '' }}>
+                                    {{ $category->category }}
+                                </option>
+                            @endforeach
+                        </select> --}}
+
 
                         </div>
 

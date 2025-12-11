@@ -11,7 +11,6 @@ class Product extends Model
     'description',
     'quantity',
     'price',
-    'category',
     'image',
 ];
 public function category()
@@ -20,3 +19,4 @@ public function category()
     }
 
 }
+

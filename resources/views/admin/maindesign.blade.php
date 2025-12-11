@@ -13,25 +13,6 @@
     <!-- custom CSS -->
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     @stack('styles')
-    <style>
-        body {
-            background-color: #f4f6f9;
-        }
-        .sidebar {
-            background-color: #343a40;
-            min-height: 100vh;
-        }
-        .sidebar .nav-link {
-            color: #fff;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
-            border-radius: 5px;
-        }
-        .card-icon {
-            font-size: 2rem;
-        }
-    </style>
 </head>
 <body>
 <div class="d-flex">
@@ -48,6 +29,7 @@
         @yield('update_category')
         @yield('add_product')
         @yield('view_product')
+        @yield('update_product')
     </div>
 </div>
 

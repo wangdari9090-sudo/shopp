@@ -1,9 +1,35 @@
-@extends('admin.maindesign') 
+@extends('admin.maindesign')
 @section('page-title', 'View Products')
 
 @section('view_product')
-<div class="card shadow-sm p-3 p-md-4">
-    <h4 class="mb-3">All Products</h4>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+
+    <!-- Search Box (Left) -->
+    <form action="{{ route('admin.searchproduct') }}" method="post" class="d-flex" style="max-width: 280px; width: 100%;">
+        @csrf
+        <div class="input-group">
+            <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Search..."
+                value="{{ request()->search }}"
+            >
+            <button class="btn btn-outline-secondary" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
+        </div>
+    </form>
+
+    <!-- Add Product Button (Right) -->
+    <a href="{{ route('admin.addproduct') }}" class="btn btn-primary">
+        <i class="bi bi-plus-lg me-1"></i> Add Product
+    </a>
+
+</div>
+
+
+
 
     {{-- Success Message --}}
     @if(session('success'))
@@ -15,104 +41,84 @@
 
     {{-- Table wrapper for horizontal scroll on mobile --}}
     <div class="table-responsive">
-        <table class="table table-bordered table-striped align-middle text-center">
-            <thead class="table-dark">
-                <tr>
-                    <th class="text-nowrap" style="width:3%;">#</th>
-                    <th class="text-nowrap" style="width:7%;">Image</th>
-                    <th class="text-nowrap" style="width:15%;">Title</th>
-                    <th class="text-nowrap" style="width:10%;">Category</th>
-                    <th class="text-nowrap" style="width:7%;">Price</th>
-                    <th class="text-nowrap" style="width:8%;">Discount</th>
-                    <th class="text-nowrap" style="width:5%;">Qty</th>
-                    <th class="text-nowrap" style="width:8%;">SKU</th>
-                    <th class="text-nowrap" style="width:7%;">Status</th>
-                    <th class="text-nowrap" style="width:15%;">Tags</th>
-                    <th class="text-nowrap" style="width:10%;">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($products as $key => $product)
-                    <tr>
-                        <td class="text-center">{{ $key + 1 }}</td>
+    <table class="table table-bordered table-striped align-middle text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>No.</th>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
 
-                        {{-- Image --}}
-                        <td>
-                            @if($product->image)
-                                <img src="{{ asset('storage/'.$product->image) }}" 
-                                     alt="{{ $product->title }}" 
-                                     class="img-fluid rounded mx-auto d-block"
-                                     style="width:50px; height:50px; object-fit:cover;">
-                            @else
-                                <span class="text-muted">No Image</span>
-                            @endif
-                        </td>
+    <tbody>
+        @forelse($products as $key => $product)
+            <tr>
+                <td>{{ $key + 1 }}</td>
 
-                        {{-- Title --}}
-                        <td class="text-truncate" style="max-width:120px;" title="{{ $product->title }}">
-                            {{ $product->title }}
-                        </td>
+                {{-- Image --}}
+                <td>
+                    @if($product->product_image)
+                        <img src="{{ asset('storage/products/'.$product->product_image) }}"
+                             class="img-fluid rounded"
+                             style="width:50px;height:50px;object-fit:cover;">
+                    @else
+                        <span class="text-muted">No Image</span>
+                    @endif
+                </td>
 
-                        {{-- Category --}}
-                        <td class="text-truncate" style="max-width:100px;" title="{{ $product->category->category ?? 'N/A' }}">
-                            {{ $product->category->category ?? 'N/A' }}
-                        </td>
+                {{-- Title --}}
+                <td>{{ $product->product_title }}</td>
 
-                        {{-- Price --}}
-                        <td>${{ number_format($product->price, 2) }}</td>
+                {{-- Description --}}
+                <td class="text-truncate" style="max-width:150px;">
+                    {{ $product->product_description ?? 'N/A' }}
+                </td>
 
-                        {{-- Discount Price --}}
-                        <td>
-                            @if($product->discount_price)
-                                ${{ number_format($product->discount_price, 2) }}
-                            @else
-                                <span class="text-muted">-</span>
-                            @endif
-                        </td>
+                {{-- Price --}}
+                <td>${{ number_format($product->product_price, 2) }}</td>
 
-                        {{-- Quantity --}}
-                        <td>{{ $product->quantity }}</td>
+                {{-- Quantity --}}
+                <td>{{ $product->product_quantity }}</td>
 
-                        {{-- SKU --}}
-                        <td class="text-truncate" style="max-width:80px;" title="{{ $product->sku }}">
-                            {{ $product->sku }}
-                        </td>
+                {{-- Status --}}
+                <td>
+                    @if($product->product_quantity > 0)
+                        <span class="badge bg-success">Active</span>
+                    @else
+                        <span class="badge bg-secondary">Inactive</span>
+                    @endif
+                </td>
 
-                        {{-- Status --}}
-                        <td>
-                            @if($product->status == 'active')
-                                <span class="badge bg-success">Active</span>
-                            @else
-                                <span class="badge bg-secondary">Inactive</span>
-                            @endif
-                        </td>
+                {{-- Actions --}}
+                <td>
+                    <a href="{{ route('admin.updateproduct', $product->id) }}" class="btn btn-sm btn-primary">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
 
-                        {{-- Tags --}}
-                        <td class="text-truncate" style="max-width:120px;" title="{{ $product->tags }}">
-                            {{ $product->tags }}
-                        </td>
-
-                        {{-- Actions --}}
-                        <td class="text-nowrap">
-                            <a href="{{ route('admin.updateproduct', $product->id) }}" 
-                               class="btn btn-sm btn-primary mb-1 me-1">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-
-                            <a href="{{ route('admin.deleteproduct', $product->id) }}"
-                               class="btn btn-sm btn-danger mb-1"
-                               onclick="return confirm('Are you sure you want to delete this product?');">
-                                <i class="bi bi-trash text-white"></i>
-                            </a>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="11" class="text-center">No products found.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                    <a href="{{ route('admin.deleteproduct', $product->id) }}"
+                       onclick="return confirm('Delete this?');"
+                       class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="8">No products found.</td>
+            </tr>
+        @endforelse
+    </tbody>
+    </table>
+    <!-- Pagination -->
+        <div class="d-flex justify-content-center mt-4">
+            {{ $products->links() }}
+        </div>
     </div>
 </div>
+
 @endsection

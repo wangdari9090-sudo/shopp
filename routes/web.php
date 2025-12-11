@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+Route::get('/', [UserController::class, 'home'])->name('index');
+
+Route::get('/product_details/{id}', [UserController::class, 'productDetails'])->name('productdetails');
 
 Route::get('/dashboard', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -42,7 +42,9 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/update_product/{id}', [AdminController::class, 'updateProduct'])->name('admin.updateproduct');
 
-    Route::post('/update_product/{id}', [AdminController::class, 'postupdateProduct'])->name('admin.postupdateproduct');
+    Route::post('/update_product/{id}', [AdminController::class, 'postUpdateProduct'])->name('admin.postupdateproduct');
+
+    Route::post('/search', [AdminController::class, 'searchProduct'])->name('admin.searchproduct');
 
 // End of Product Routes
 });
