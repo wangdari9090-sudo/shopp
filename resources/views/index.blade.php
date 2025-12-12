@@ -2,10 +2,10 @@
 
 @section('hero')
 <section class="hero-section position-relative d-flex align-items-center justify-content-center text-center"
-    style="height: 90vh; background: url('https://images.unsplash.com/photo-1495856458515-0637185db551?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHdhdGNofGVufDB8MHwwfHx8MA%3D%3D') center/cover no-repeat;">
+    style="height: 90vh; background: url('https://i.pinimg.com/736x/10/0a/f4/100af42bfdb0c1c4700f35b674abbf13.jpg') center/cover no-repeat;">
 
     <!-- Dark Gradient Overlay -->
-    <div class="position-absolute top-0 start-0 w-100 h-80"
+    <div class="position-absolute top-0 start-0 w-100 h-100"
          style="background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4));">
     </div>
 
@@ -23,54 +23,6 @@
 
 @section('index')
 
-<!-- Categories -->
-    <h2 class="fw-bold text-center mb-4">Shop by Category</h2>
-
-    <div class="row g-4 justify-content-center">
-
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="category-box">
-                <i class="bi bi-bag-heart fs-1"></i>
-                <h5 class="fw-semibold mt-2">Women Fashion</h5>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="category-box">
-                <i class="bi bi-person-standing fs-1"></i>
-                <h5 class="fw-semibold mt-2">Men Fashion</h5>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="category-box">
-                <i class="bi bi-emoji-smile fs-1"></i>
-                <h5 class="fw-semibold mt-2">Kids & Baby</h5>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="category-box">
-                <i class="bi bi-phone fs-1"></i>
-                <h5 class="fw-semibold mt-2">Electronics</h5>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="category-box">
-                <i class="bi bi-house-door fs-1"></i>
-                <h5 class="fw-semibold mt-2">Home & Living</h5>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="category-box">
-                <i class="bi bi-gem fs-1"></i>
-                <h5 class="fw-semibold mt-2">Jewelry</h5>
-            </div>
-        </div>
-
-    </div>
     <!-- Featured Products Section -->
 <section class="container my-5">
     <h2 class="fw-bold text-center mb-4">Featured Products</h2>
@@ -96,11 +48,64 @@
 
     </div>
 </section>
+<!-- Categories -->
+<section class="categories-section container my-5">
+    <h2 class="fw-bold text-center mb-4">Shop by Watch Category</h2>
+
+
+    <div class="row g-4 justify-content-center">
+
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="category-box">
+                <i class="bi bi-smartwatch fs-1"></i>
+                <h5 class="fw-semibold mt-2">Smartwatches</h5>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="category-box">
+                <i class="bi bi-watch fs-1"></i>
+                <h5 class="fw-semibold mt-2">Luxury Watches</h5>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="category-box">
+                <i class="bi bi-clock-history fs-1"></i>
+                <h5 class="fw-semibold mt-2">Automatic Watches</h5>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="category-box">
+                <i class="bi bi-stopwatch fs-1"></i>
+                <h5 class="fw-semibold mt-2">Chronograph Watches</h5>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="category-box">
+                <i class="bi bi-droplet fs-1"></i>
+                <h5 class="fw-semibold mt-2">Diver Watches</h5>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="category-box">
+                <i class="bi bi-compass fs-1"></i>
+                <h5 class="fw-semibold mt-2">Field Watches</h5>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
 <!-- Top Collections -->
 <section class="container my-5">
     <h2 class="fw-bold text-center mb-4">Top Collections</h2>
 
-<div class="row g-4">
+<div class="row g-4 mb-">
 
     @foreach($collections as $product)
    <div class="col-12 col-md-6 col-lg-4">

@@ -11,6 +11,17 @@ Route::get('/product_details/{id}', [UserController::class, 'productDetails'])->
 
 Route::get('/dashboard', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::post('/add_to_cart/{id}', [UserController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('add_to_cart');
+
+Route::get('/view_cart/{id}', [UserController::class, 'viewCart'])->middleware(['auth', 'verified'])->name('viewcart');
+
+Route::delete('remove_cart_product/{id}', [UserController::class, 'removeCartproduct'])->middleware(['auth', 'verified'])->name('removecartproduct');
+
+Route::get('/checkout', [UserController::class, 'checkOut'])->middleware(['auth', 'verified'])->name('checkout');
+
+Route::post('/place_order', [UserController::class, 'placeOrder'])->middleware(['auth', 'verified'])->name('place_order');
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

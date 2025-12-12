@@ -22,7 +22,7 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg shadow-sm fixed-top">
+<nav class="navbar navbar-expand-lg navbar-expand-md shadow-sm fixed-top">
     <div class="container">
         <a class="navbar-brand fw-bold fs-3" href="{{ route('index') }}">MyShop</a>
 
@@ -36,7 +36,21 @@
                 <li class="nav-item"><a class="nav-link fs-6" href="#">Shop</a></li>
                 <li class="nav-item"><a class="nav-link fs-6" href="#">Categories</a></li>
                 <li class="nav-item"><a class="nav-link fs-6" href="#">Contact</a></li>
+                <li class="nav-item position-relative">
+                    <a href="{{ route('viewcart', 'id') }}" class="nav-link p-0 position-relative d-inline-block">
 
+                        <!-- Cart Icon -->
+                        <i class="bi bi-cart fs-4"></i>
+
+                        <!-- Badge -->
+                        @if(isset($count) && $count > 0)
+                        <span class="cart-badge badge bg-danger rounded-pill">
+                            {{ $count }}
+                        </span>
+                        @endif
+
+                    </a>
+                </li>
                 @if(Auth::check())
                     <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
                 @else
@@ -48,13 +62,18 @@
     </div>
 </nav>
 @yield('hero')
-<section class="container my-5">
-    @yield('index')
-    @yield('product_details')
-</section>
+<main class="pt-5 pb-5">
+    <section class="container my-5">
+        @yield('index')
+        @yield('product_details')
+        @yield('view_cart')
+        @yield('checkout')
+    </section>
+</main>
+
 
 <!-- Footer -->
-<footer class="text-center text-white">
+<footer class="text-center text-white fixed-bottom bg-dark py-3 align-items-center p-4 mt-5">
     <p class="mb-1">&copy; 2025 MyShop. All Rights Reserved.</p>
 
     <div>
@@ -65,6 +84,15 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Auto-hide alerts (Bootstrap)
+    setTimeout(() => {
+        document.querySelectorAll('.alert').forEach(alert => {
+            let bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        });
+    }, 2000);
+</script>
 
 </body>
 </html>
