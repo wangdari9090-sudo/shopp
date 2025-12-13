@@ -2,10 +2,14 @@
 @section('product_details')
 {{-- {{ dd($product) }} --}}
 
-<div class="container py-5">
+    {{-- Success message --}}
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert"><strong>{{ session('success') }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="row g-5">
 
-        <!-- ================= IMAGE ================= -->
         <div class="col-lg-5 col-md-6 col-sm-12 text-center">
             <div class="p-3 shadow-sm rounded">
                 <img src="{{ asset('storage/products/' . $product->product_image) }}"
@@ -14,18 +18,9 @@
             </div>
         </div>
 
-        <!-- ================= DETAILS ================= -->
         <div class="col-lg-7 col-md-6 col-sm-12">
 
             <h2 class="fw-bold">{{ $product->product_title }}</h2>
-
-            {{-- Category --}}
-            {{-- <p class="text-muted mb-1">
-                Category:
-                <span class="fw-semibold text-primary">
-                    {{ $product->category->category ?? 'Uncategorized' }}
-                </span>
-            </p> --}}
 
             {{-- Price --}}
             <h4 class="text-success fw-bold mt-3">
@@ -49,14 +44,14 @@
             {{-- Add to Cart --}}
             <div class="mt-4 d-flex gap-3">
 
-                <form action="#" method="POST">
+                <form action="{{ route('add_to_cart', $product->id) }}" method="POST">
                     @csrf
                     <button class="btn btn-primary btn-lg px-4">
                         <i class="bi bi-cart-plus me-1"></i> Add to Cart
                     </button>
                 </form>
 
-                <a href="{{ route('index') }}" class="btn btn-outline-secondary btn-lg">
+                <a href="{{ route('viewcart', 'id') }}" class="btn btn-outline-secondary btn-lg">
                     <i class="bi bi-arrow-left"></i> Back
                 </a>
 
@@ -65,8 +60,6 @@
         </div>
 
     </div>
-
-    <!-- ================= RELATED ITEMS SECTION ================= -->
     <hr class="my-5">
 
     <h4 class="fw-bold mb-4">Related Products</h4>
@@ -79,7 +72,7 @@
                     <div class="card shadow-sm product-card h-100">
                         <img src="{{ asset('storage/products/' . $item->product_image) }}"
                              class="card-img-top"
-                             style="height:180px; object-fit:cover;">
+                             style="height:220px; object-fit:cover;">
 
                         <div class="card-body">
                             <h6 class="fw-semibold">{{ $item->product_title }}</h6>

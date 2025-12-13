@@ -13,17 +13,103 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
-    {{-- @vite('resources/css/app.css') --}}
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+        }
+
+        /* Navbar */
+        .navbar {
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.8);
+        }
+
+        /* Hero */
+        .hero {
+            height: 90vh;
+            background: url('{{ asset('assets/img/hero-pc.jpg') }}') center/cover no-repeat;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* Category Boxes */
+        .category-box {
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+            background: white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .category-box:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Product Cards */
+        .product-card {
+            background: rgba(255,255,255,0.7);
+            border-radius: 15px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .product-img {
+            height: 220px;
+            object-fit: cover;
+            border-radius: 15px 15px 0 0;
+        }
+
+        /* Footer */
+        footer {
+            background: #0d0d0d;
+            padding: 30px 0;
+        }
+
+        footer i {
+            font-size: 20px;
+            margin: 0 10px;
+        }
+    </style>
 
 </head>
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg tertiary shadow-sm fixed-top" style="background-color: #f8f9fa;">
+<nav class="navbar navbar-expand-lg shadow-sm fixed-top">
     <div class="container">
-        <a class="navbar-brand fw-bold fs-3" href="#">MyShop</a>
+        <a class="navbar-brand fw-bold fs-3" href="{{ route('index') }}">MyShop</a>
 
         <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -35,7 +121,21 @@
                 <li class="nav-item"><a class="nav-link fs-6" href="#">Shop</a></li>
                 <li class="nav-item"><a class="nav-link fs-6" href="#">Categories</a></li>
                 <li class="nav-item"><a class="nav-link fs-6" href="#">Contact</a></li>
+                <li class="nav-item position-relative">
+                    <a href="{{ route('viewcart', 'id') }}" class="nav-link p-0 position-relative d-inline-block">
 
+                        <!-- Cart Icon -->
+                        <i class="bi bi-cart fs-4"></i>
+
+                        <!-- Badge -->
+                        @if(isset($count) && $count > 0)
+                        <span class="cart-badge badge bg-danger rounded-pill">
+                            {{ $count }}
+                        </span>
+                        @endif
+
+                    </a>
+                </li>
                 @if(Auth::check())
                     <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                 @else
@@ -47,24 +147,24 @@
     </div>
 </nav>
 
-<section class="container mt-5 pt-5">
+<section class="container my-5">
     @yield('index')
     @yield('product_details')
 </section>
 
 <!-- Footer -->
-<footer class="bg-dark text-white py-4">
-    <div class="container text-center">
-        <p class="mb-2">&copy; 2025 MyShop. All Rights Reserved.</p>
-        <div class="d-flex justify-content-center gap-3">
-            <a href="#" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="text-white fs-4"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
-        </div>
+<footer class="text-center text-white">
+    <p class="mb-1">&copy; 2025 MyShop. All Rights Reserved.</p>
+
+    <div>
+        <i class="bi bi-facebook"></i>
+        <i class="bi bi-twitter"></i>
+        <i class="bi bi-instagram"></i>
     </div>
 </footer>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
