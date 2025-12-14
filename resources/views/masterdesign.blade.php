@@ -36,6 +36,13 @@
                 {{-- <li class="nav-item"><a class="nav-link fs-6" href="#">Shop</a></li> --}}
                 {{-- <li class="nav-item"><a class="nav-link fs-6" href="#">Categories</a></li> --}}
                 <li class="nav-item"><a class="nav-link fs-6" href="{{ route('contact') }}">Contact</a></li>
+                
+                @if(Auth::check())
+                    <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
+                @else
+                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    {{-- <li class="nav-item"><a class="nav-link btn btn-primary px-3 rounded-pill" href="{{ route('register') }}">Sign Up</a></li> --}}
+                @endif
                 <li class="nav-item position-relative">
                     <a href="{{ route('viewcart', 'id') }}" class="nav-link p-0 position-relative d-inline-block">
 
@@ -51,12 +58,6 @@
 
                     </a>
                 </li>
-                @if(Auth::check())
-                    <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
-                @else
-                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-primary px-3 rounded-pill" href="{{ route('register') }}">Sign Up</a></li>
-                @endif
             </ul>
         </div>
     </div>

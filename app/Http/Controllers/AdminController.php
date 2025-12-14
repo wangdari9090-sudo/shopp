@@ -115,14 +115,26 @@ class AdminController extends Controller
     {
     $product = Product::findOrFail($id);
 
-     if ($product->product_image && Storage::exists('public/products/'.$product->product_image)) {
-        Storage::delete('public/products/'.$product->product_image);
+    $files = Storage::disk('public')->files('products');
+
+    $usedImages = Product::pluck('product_image')->toArray();
+
+    foreach ($files as $file) {
+        if (!in_array(basename($file), $usedImages)) {
+            Storage::disk('public')->delete($file);
+        }
+    }
+
+
+    if ($product->product_image && Storage::disk('public')->exists('products/'.$product->product_image)) {
+        Storage::disk('public')->delete('products/'.$product->product_image);
     }
 
     $product->delete();
 
     return redirect()->back()->with('success', 'Product deleted successfully');
-    }
+}
+
     public function updateProduct($id)
     {
         $product = Product::findOrFail($id);

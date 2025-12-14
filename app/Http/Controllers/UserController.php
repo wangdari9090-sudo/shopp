@@ -94,7 +94,7 @@ class UserController extends Controller
 
         $product = Product::with('category')->findOrFail($id);
 
-        $related = Product::where('product_category', $product->product_category)
+        $related = Product::where('category_id', $product->category_id)
                         ->where('id', '!=', $id)
                         ->take(6)
                         ->get();

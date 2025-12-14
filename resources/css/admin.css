@@ -2,7 +2,7 @@ body {
     background-color: #f4f6f9;
 }
 .sidebar {
-    background-color: #343a40;
+    background-color: black;
     min-height: 100vh;
 }
 .sidebar .nav-link {
@@ -10,11 +10,7 @@ body {
 }
 .sidebar .nav-link:hover {
     background-color: #495057;
-    border-radius: 5px;@forelse ($collection as $item)
-
-    @empty
-
-    @endforelse
+    border-radius: 5px;
 }
 .card-icon {
     font-size: 2rem;

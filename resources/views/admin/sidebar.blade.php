@@ -1,4 +1,4 @@
-<nav class="sidebar" id="adminSidebar">
+<nav class="sidebar bg-dark" id="adminSidebar">
     <h4 class="text-center text-white mb-4 fw-bold pt-3">Admin Panel</h4>
 
     <ul class="nav flex-column px-2">
