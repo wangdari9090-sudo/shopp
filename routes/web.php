@@ -71,6 +71,10 @@ Route::middleware('admin')->group(function () {
 
     Route::post('/search', [AdminController::class, 'searchProduct'])->name('admin.searchproduct');
     Route::get('/view_orders', [AdminController::class, 'viewOrders'])->name('admin.vieworders');
+    
+    Route::patch('/admin/orders/{id}/status', [AdminController::class, 'updateOrderStatus'])
+    ->name('admin.updateOrderStatus')
+    ->middleware('auth', 'admin');
 
 // End of Product Routes
 });

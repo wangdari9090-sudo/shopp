@@ -45,18 +45,40 @@
                             <td>
                                 ${{ number_format($order->product->product_price, 2) }}
                             </td>
+                           <td>
+                                @if($order->status == 'pending')
+                                    <span class="badge bg-secondary mb-2 d-block">Pending</span>
+                                @elseif($order->status == 'on_the_way')
+                                    <span class="badge bg-warning text-dark mb-2 d-block">On the Way</span>
+                                @elseif($order->status == 'delivered')
+                                    <span class="badge bg-success mb-2 d-block">Delivered</span>
+                                @else
+                                    <span class="badge bg-light text-dark mb-2 d-block">Unknown</span>
+                                @endif
 
-                            <td>
-                                <a href="#" class="btn btn-sm btn-primary">View</a>
+                                <div class="d-flex justify-content-center gap-1">
+                                    @if($order->status == 'pending')
+                                    <form action="{{ route('admin.updateOrderStatus', $order->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="on_the_way">
+                                        <button type="submit" class="btn btn-sm btn-warning p-1">
+                                            <i class="bi bi-truck"></i>
+                                        </button>
+                                    </form>
+                                    @endif
+                                    @if($order->status != 'delivered')
+                                    <form action="{{ route('admin.updateOrderStatus', $order->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="delivered">
+                                        <button type="submit" class="btn btn-sm btn-success p-1">
+                                            <i class="bi bi-check-lg"></i>
+                                        </button>
+                                    </form>
+                                    @endif
 
-                                <form action="#" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Delete this order?')">
-                                        Delete
-                                    </button>
-                                </form>
+                                </div>
                             </td>
                         </tr>
                     @empty

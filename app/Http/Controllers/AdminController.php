@@ -115,8 +115,8 @@ class AdminController extends Controller
     {
     $product = Product::findOrFail($id);
 
-    if ($product->product_image) {
-        Storage::disk('public')->delete('products/' . $product->product_image);
+     if ($product->product_image && Storage::exists('public/products/'.$product->product_image)) {
+        Storage::delete('public/products/'.$product->product_image);
     }
 
     $product->delete();
@@ -133,6 +133,7 @@ class AdminController extends Controller
 
     public function postUpdateProduct(Request $request, $id)
     {
+        $product = Product::findOrFail($id);
         $request->validate([
             'product_title' => 'required|string',
             'product_price' => 'required|numeric',
@@ -140,7 +141,6 @@ class AdminController extends Controller
             'product_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        $product = Product::findOrFail($id);
 
         $product->product_title = $request->product_title;
         $product->product_description = $request->product_description;
@@ -148,12 +148,10 @@ class AdminController extends Controller
         $product->product_price = $request->product_price;
         if ($request->hasFile('product_image')) {
 
-        // Delete old image
         if ($product->product_image && Storage::disk('public')->exists('products/'.$product->product_image)) {
             Storage::disk('public')->delete('products/'.$product->product_image);
         }
 
-        // Store new image
         $imageName = uniqid().'_'.$request->file('product_image')->getClientOriginalName();
         $request->file('product_image')->storeAs('products', $imageName, 'public');
 
@@ -164,9 +162,30 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Product Updated Successfully!');
     }
+
+    
     public function viewOrders(){
         $orders = Order::all();
         return view('admin.vieworder', compact('orders'));
     }
+
+   public function updateOrderStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+
+        $status = $request->input('status');
+
+        if (in_array($status, ['on_the_way', 'delivered'])) {
+            $order->status = $status;
+            $order->save();
+
+            return redirect()->back()->with('success', "Order status updated to ".ucfirst(str_replace('_',' ',$status)));
+        }
+
+        return redirect()->back()->with('error', 'Invalid status');
+    }
+
+
+
     // THE END
 }
