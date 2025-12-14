@@ -1,4 +1,4 @@
-@extends('masterdesign')
+{{-- @extends('masterdesign')
 
 @section('checkout')
 
@@ -23,8 +23,6 @@
 @else
 
 <div class="row d-flex justify-content-evenly">
-
-    {{-- LEFT SIDE – CUSTOMER FORM --}}
     <div class="col-lg-6 col-md-6 ">
 
         <div class="card shadow-sm">
@@ -35,7 +33,6 @@
                 <form action="{{ route('confirm_order') }}" method="POST">
                     @csrf
 
-                    {{-- Email and Phone --}}
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Email Address</label>
@@ -49,8 +46,6 @@
                     </div>
 
                     <hr>
-
-                    {{-- Shipping Address --}}
                     <h5 class="fw-bold mb-3">Shipping Address</h5>
 
                     <div class="mb-3">
@@ -60,7 +55,6 @@
 
                     <hr>
 
-                    {{-- Payment Method --}}
                     <h5 class="fw-bold mb-3">Payment Method</h5>
 
                     <select name="payment_method" class="form-select mb-3">
@@ -70,7 +64,6 @@
                         <option value="cod">Cash on Delivery</option>
                     </select>
 
-                    {{-- Order Notes --}}
                     <div class="mb-3">
                         <label class="form-label">Order Notes (Optional)</label>
                         <textarea name="notes" class="form-control" rows="3"
@@ -93,8 +86,6 @@
         </div>
 
     </div>
-
-    {{-- RIGHT SIDE – ORDER SUMMARY --}}
     <div class="col-lg-6 col-md-6">
         <div class="card shadow-sm">
             <div class="card-body">
@@ -136,4 +127,4 @@
 
 @endif
 
-@endsection
+@endsection --}}

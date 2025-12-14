@@ -30,6 +30,7 @@
         @yield('add_product')
         @yield('view_product')
         @yield('update_product')
+        @yield('view_orders')
     </div>
 </div>
 <!-- Footer -->

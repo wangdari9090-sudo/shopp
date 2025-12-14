@@ -21,6 +21,16 @@ class UserController extends Controller
             return view('admin.dashboard');
         }
     }
+    public function contact()
+    {
+        if(Auth::check() && Auth::user()->user_type == 'user'){
+        $count = ProductCart::where('user_id', Auth::id())->count();
+        }
+        else{
+            $count = 0;
+        }
+        return view('contact', compact('count'));
+    }
     public function home(){
         if(Auth::check() && Auth::user()->user_type == 'user'){
         $count = ProductCart::where('user_id', Auth::id())->count();
@@ -101,11 +111,11 @@ class UserController extends Controller
         $carts = ProductCart::where('user_id', Auth::id())->get();
 
         foreach ($carts as $cart) {
-            $cart_item = ProductCart::find($cart->id);
+            $cart_item = ProductCart::findOrFail($cart->id);
             $cart_item->delete();
         }
 
-        return redirect()->back()->with('confirm_order', 'Order Confirmed');
+        return redirect()->back()->with('success', 'Order Confirmed');
     }
 
 

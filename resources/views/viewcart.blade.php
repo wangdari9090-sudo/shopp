@@ -25,31 +25,28 @@
         </div>
     @else
 
-    <div class="row d-flex justify-content-center">
-        <div class="col-lg-4 col-md-6 mb-4">
+   <div class="row justify-content-center g-4">
 
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
+    {{-- COLUMN 1: CART ITEMS --}}
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
 
-                    @foreach($cart as $item)
+                <h5 class="fw-bold mb-3">Cart Items</h5>
+
+                @foreach($cart as $item)
                     <div class="d-flex align-items-center border-bottom py-3">
 
-                        {{-- Product Image --}}
                         <img src="{{ asset('storage/products/' . $item->product->product_image) }}"
                              class="rounded"
-                             style="width: 90px; height: 90px; object-fit: cover;">
+                             style="width: 80px; height: 80px; object-fit: cover;">
 
-                        {{-- Product Info --}}
                         <div class="ms-3 flex-grow-1">
-
-                            <h5 class="fw-semibold mb-1">{{ $item->product->product_title }}</h5>
+                            <h6 class="fw-semibold mb-1">{{ $item->product->product_title }}</h6>
                             <p class="text-muted mb-1">${{ number_format($item->product->product_price, 2) }}</p>
-
-                            {{-- Quantity --}}
-                            <p class="badge bg-secondary">Qty: {{ $item->quantity ?? 1 }}</p>
+                            <span class="badge bg-secondary">Qty: {{ $item->quantity ?? 1 }}</span>
                         </div>
 
-                        {{-- Remove Button --}}
                         <form action="{{ route('removecartproduct', $item->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
@@ -59,67 +56,87 @@
                         </form>
 
                     </div>
-                    @endforeach
+                @endforeach
 
+            </div>
+        </div>
+    </div>
+
+    {{-- FORM START --}}
+    <form action="{{ route('confirm_order') }}" method="POST" class="col-md-8">
+        @csrf
+
+        <div class="row g-4">
+
+            {{-- COLUMN 2: SUMMARY --}}
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+
+                        <h5 class="fw-bold">Summary</h5>
+                        <hr>
+
+                        <ul class="list-group mb-3">
+                            @php $subtotal = 0; @endphp
+                            @foreach($cart as $key => $item)
+                                @php
+                                    $price = $item->product->product_price * ($item->quantity ?? 1);
+                                    $subtotal += $price;
+                                @endphp
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>
+                                        {{ $key + 1 }}. {{ $item->product->product_title }}
+                                        <br>
+                                        <small class="text-muted">Qty: {{ $item->quantity ?? 1 }}</small>
+                                    </span>
+                                    <strong>${{ number_format($price, 2) }}</strong>
+                                </li>
+                            @endforeach
+                        </ul>
+
+                        <p class="d-flex justify-content-between fw-bold">
+                            <span>Subtotal</span>
+                            <span>${{ number_format($subtotal, 2) }}</span>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+            {{-- COLUMN 3: CUSTOMER INFO --}}
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+
+                        <h5 class="fw-bold mb-3">Customer Information</h5>
+                        <div class="mb-3">
+                            <label class="form-label">Phone</label>
+                            <input type="text" name="receiver_phone" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            <input type="text" name="receiver_address" class="form-control"required>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{{ route('productdetails', $item->product->id) }}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Back
+                            </a>
+
+                            <button type="submit" class="btn btn-primary px-4">
+                                Confirm Order
+                            </button>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
         </div>
-
-        {{-- Summary Sidebar --}}
-        <div class="col-lg-4 col-md-6">
-    <div class="card shadow-sm">
-        <div class="card-body">
-
-            <h4 class="fw-bold">Summary</h4>
-            <hr>
-
-            {{-- List of Items --}}
-            <ul class="list-group mb-3">
-                @php
-                    $totalPrice = 0;
-                @endphp
-
-                @foreach($cart as $key => $item)
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>
-                            {{ $key + 1 }} . {{ $item->product->product_title }}
-                            <br>
-                            <small class="text-muted ms-3">Qty: {{ $item->quantity ?? 1 }}</small>
-                        </span>
-
-
-                        <strong class="p-2 ms-3">
-                            ${{ number_format($item->product->product_price * ($item->quantity ?? 1), 2) }}
-                        </strong>
-                    </li>
-                @endforeach
-            </ul>
-            @php
-                $subtotal = 0;
-                foreach($cart as $item){
-                    $subtotal += $item->product->product_price * ($item->quantity ?? 1);
-                }
-            @endphp
-            {{-- Total --}}
-            <p class="d-flex justify-content-between">
-                <span>Sub Total:</span>
-                <strong>${{ number_format($subtotal, 2) }}</strong>
-            </p>
-             <div class="mt-4 d-flex d-flex justify-content-between">
-
-                 <a href="{{ route('index') }}" class="btn btn-outline-secondary btn-lg">
-                     <i class="bi bi-arrow-left"></i> Back
-                 </a>
-                <a href="{{ route('confirm_order') }}" class="btn btn-primary btn-lg px-4">
-                    Confirm Order
-                </a>
-
-            </div>
-    </div>
+    </form>
 </div>
 
-    </div>
 
     @endif
 </div>

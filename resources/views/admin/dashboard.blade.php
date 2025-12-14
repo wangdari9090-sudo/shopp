@@ -1,44 +1,6 @@
 @extends('admin.maindesign')
-{{-- @section('page-title', 'Add Category') --}}
 
 @section('dashboard')
-     <div class="row mb-4 justify-content-center" style="max-width: 1200px; margin: auto;">
-    <div class="col-md-3 col-sm-6 mb-3">
-        <div class="card text-center shadow-sm" style="border-radius: 10px;">
-            <div class="card-body p-3">
-                <h4 class="mb-1">120</h4>
-                <p class="text-muted small mb-0">Total Posts</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-6 mb-3">
-        <div class="card text-center shadow-sm" style="border-radius: 10px;">
-            <div class="card-body p-3">
-                <h4 class="mb-1">200</h4>
-                <p class="text-muted small mb-0">Total Posts</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 col-sm-6 mb-3">
-        <div class="card text-center shadow-sm" style="border-radius: 10px;">
-            <div class="card-body p-3">
-                <h4 class="mb-1">8</h4>
-                <p class="text-muted small mb-0">Categories</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 col-sm-6 mb-3">
-        <div class="card text-center shadow-sm" style="border-radius: 10px;">
-            <div class="card-body p-3">
-                <h4 class="mb-1">340</h4>
-                <p class="text-muted small mb-0">Users</p>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <div class="card shadow-sm" style="max-width: 1200px; margin: auto;">
     <div class="card-header text-white" style="background:#2C3E50;">

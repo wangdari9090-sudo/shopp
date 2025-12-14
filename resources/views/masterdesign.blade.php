@@ -33,9 +33,9 @@
         <div class="collapse navbar-collapse text-center" id="navbarNav">
             <ul class="navbar-nav ms-auto gap-lg-4">
                 <li class="nav-item"><a class="nav-link fs-6" href="{{ route('index') }}">Home</a></li>
-                <li class="nav-item"><a class="nav-link fs-6" href="#">Shop</a></li>
-                <li class="nav-item"><a class="nav-link fs-6" href="#">Categories</a></li>
-                <li class="nav-item"><a class="nav-link fs-6" href="#">Contact</a></li>
+                {{-- <li class="nav-item"><a class="nav-link fs-6" href="#">Shop</a></li> --}}
+                {{-- <li class="nav-item"><a class="nav-link fs-6" href="#">Categories</a></li> --}}
+                <li class="nav-item"><a class="nav-link fs-6" href="{{ route('contact') }}">Contact</a></li>
                 <li class="nav-item position-relative">
                     <a href="{{ route('viewcart', 'id') }}" class="nav-link p-0 position-relative d-inline-block">
 
@@ -68,6 +68,7 @@
         @yield('product_details')
         @yield('view_cart')
         @yield('checkout')
+        @yield('contact')
     </section>
 </main>
 

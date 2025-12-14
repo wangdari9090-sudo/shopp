@@ -7,7 +7,14 @@ use App\Http\Controllers\AdminController;
 
 Route::get('/', [UserController::class, 'home'])->name('index');
 
+Route::get('/contact', [UserController::class, 'contact'])->name('contact');
+
 Route::get('/product_details/{id}', [UserController::class, 'productDetails'])->name('productdetails');
+
+Route::get('/admin/dashboard', [AdminController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.dashboard');
+
 
 Route::get('/dashboard', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -17,7 +24,7 @@ Route::get('/view_cart/{id}', [UserController::class, 'viewCart'])->middleware([
 
 Route::delete('remove_cart_product/{id}', [UserController::class, 'removeCartproduct'])->middleware(['auth', 'verified'])->name('removecartproduct');
 
-Route::get('/confirm_order', [UserController::class, 'confirmOrder'])->middleware(['auth', 'verified'])->name('confirm_order');
+Route::post('/confirm_order', [UserController::class, 'confirmOrder'])->middleware(['auth', 'verified'])->name('confirm_order');
 
 
 Route::middleware('auth')->group(function () {
@@ -54,6 +61,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/update_product/{id}', [AdminController::class, 'postUpdateProduct'])->name('admin.postupdateproduct');
 
     Route::post('/search', [AdminController::class, 'searchProduct'])->name('admin.searchproduct');
+    Route::get('/view_orders', [AdminController::class, 'viewOrders'])->name('admin.vieworders');
 
 // End of Product Routes
 });

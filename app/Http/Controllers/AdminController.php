@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use RequestParseBodyException;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -124,44 +125,9 @@ public function postUpdateProduct(Request $request, $id)
 
     return redirect()->back()->with('success', 'Product Updated Successfully!');
 }
-// public function postUpdateProduct(Request $request, $id){
-
-//    $request->validate([
-//         'category_id' => 'exists:categories,id',
-//     ]);
-
-//     $product = Product::findOrFail($id);
-
-//     $product->product_title = $request->product_title;
-//     $product->product_description = $request->product_description;
-//     $product->product_quantity = $request->product_quantity;
-//     $product->product_price = $request->product_price;
-
-//     // update image
-//     if ($request->hasFile('product_image')) {
-//         if ($product->product_image && Storage::exists('public/products/'.$product->product_image)) {
-//             Storage::delete('public/products/'.$product->product_image);
-//         }
-
-//         // Save new image
-//         $image = $request->file('product_image');
-//         $imageName = time().'.'.$image->getClientOriginalExtension();
-//         $image->storeAs('public/products', $imageName);
-
-//         $product->product_image = $imageName;
-//     }
-
-//     $product->save();
-
-//     return redirect()->back()->with('success', 'Product Updated Successfully!');
-//     // End of Product Controller
-//     }
-
-public function searchProduct(Request $request){
-    $products = Product::where('product_title', 'LIKE', '%' .$request->search .'%' )
-    ->orWhere('product_description', 'LIKE', '%' .$request->search .'%' )
-    ->paginate(2);
-    return view('admin.viewproduct', compact('products'));
+public function viewOrders(){
+    $orders = Order::all();
+    return view('admin.vieworder', compact('orders'));
 }
 // THE END
 }
