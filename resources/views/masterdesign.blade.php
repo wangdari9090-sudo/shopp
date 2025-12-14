@@ -69,6 +69,7 @@
         @yield('view_cart')
         @yield('checkout')
         @yield('contact')
+        @yield('category_products')
     </section>
 </main>
 

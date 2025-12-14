@@ -51,7 +51,7 @@
                     </button>
                 </form>
 
-                <a href="{{ route('viewcart', 'id') }}" class="btn btn-outline-secondary btn-lg">
+                <a href="{{ route('index') }}" class="btn btn-outline-secondary btn-lg">
                     <i class="bi bi-arrow-left"></i> Back
                 </a>
 

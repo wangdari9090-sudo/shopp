@@ -12,10 +12,37 @@ use Illuminate\Support\Facades\Storage;
 class AdminController extends Controller
 {
     public function addCategory(){
-        return view("admin.addcategory");
+        $categories = Category::all();
+        return view("admin.addcategory", compact('categories'));
     }
+    public function addProductForm()
+    {
+        $categories = Category::all();
+        return view('admin.addproduct', compact('categories'));
+    }
+
+    public function storeProduct(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        Product::create([
+            'name' => $request->name,
+            'price' => $request->price,
+        'category_id' => $request->category_id
+        ]);
+
+        return redirect()->back()->with('success', 'Product added successfully!');
+    }
+
     public function postAddCategory(Request $request){
         $category = new Category();
+        $request->validate([
+        'category' => 'required|string|max:255|unique:categories',
+        ]);
         $category->category = $request->category;
         $category->save();
         return redirect()->route('admin.addcategory')
@@ -42,38 +69,50 @@ class AdminController extends Controller
        $category->save();
        return redirect()->route('admin.viewcategory')
                  ->with('success', 'Updated Successfully!');
-
-    //    return redirect()->back()->with('success','Updated Successfully!');
     }
     // End of Category Controller
 
     // Start of Product Controller
     public function addProduct(){
-        return view('admin.addproduct');
+        $categories = Category::all();
+        return view('admin.addproduct', compact('categories'));
     }
-    public function postAddProduct(Request $request){
+    public function postAddProduct(Request $request)
+    {
+        $request->validate([
+            'product_title' => 'required|string',
+            'product_description' => 'nullable|string',
+            'product_quantity' => 'required|integer',
+            'product_price' => 'required|numeric',
+            'category_id' => 'required|exists:categories,id',
+            'product_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
         $product = new Product();
         $product->product_title = $request->product_title;
         $product->product_description = $request->product_description;
         $product->product_quantity = $request->product_quantity;
         $product->product_price = $request->product_price;
+        $product->category_id = $request->category_id;
 
         if ($request->hasFile('product_image')) {
-        $image = $request->file('product_image');
-        $imageName = time() . '.' . $image->extension();
-        $image->storeAs('products', $imageName, 'public');
-        $product->product_image = $imageName;
-    }
-    $product->save();
+            $image = $request->file('product_image');
+            $imageName = time() . '.' . $image->extension();
+            $image->storeAs('products', $imageName, 'public');
+            $product->product_image = $imageName;
+        }
 
-        return redirect()->route('admin.addproduct')->with('success', 'Product added successfully');
+        $product->save();
+
+        return redirect()->back()->with('success', 'Product added successfully!');
     }
+
     public function viewProduct(Category $category){
         $products = Product::with('category')->paginate(5);
         return view('admin.viewproduct',compact('products'));
     }
     public function deleteProduct($id)
-{
+    {
     $product = Product::findOrFail($id);
 
     if ($product->product_image) {
@@ -83,31 +122,31 @@ class AdminController extends Controller
     $product->delete();
 
     return redirect()->back()->with('success', 'Product deleted successfully');
-}
-public function updateProduct($id)
-{
-    $product = Product::findOrFail($id);
-    $categories = Category::all();
+    }
+    public function updateProduct($id)
+    {
+        $product = Product::findOrFail($id);
+        $categories = Category::all();
 
-    return view('admin.updateproduct', compact('product', 'categories'));
-}
+        return view('admin.updateproduct', compact('product', 'categories'));
+    }
 
-public function postUpdateProduct(Request $request, $id)
-{
-    $request->validate([
-        'product_title' => 'required|string',
-        'product_price' => 'required|numeric',
-        'product_quantity' => 'required|integer',
-        'product_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-    ]);
+    public function postUpdateProduct(Request $request, $id)
+    {
+        $request->validate([
+            'product_title' => 'required|string',
+            'product_price' => 'required|numeric',
+            'product_quantity' => 'required|integer',
+            'product_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
 
-    $product = Product::findOrFail($id);
+        $product = Product::findOrFail($id);
 
-    $product->product_title = $request->product_title;
-    $product->product_description = $request->product_description;
-    $product->product_quantity = $request->product_quantity;
-    $product->product_price = $request->product_price;
-    if ($request->hasFile('product_image')) {
+        $product->product_title = $request->product_title;
+        $product->product_description = $request->product_description;
+        $product->product_quantity = $request->product_quantity;
+        $product->product_price = $request->product_price;
+        if ($request->hasFile('product_image')) {
 
         // Delete old image
         if ($product->product_image && Storage::disk('public')->exists('products/'.$product->product_image)) {
@@ -119,15 +158,15 @@ public function postUpdateProduct(Request $request, $id)
         $request->file('product_image')->storeAs('products', $imageName, 'public');
 
         $product->product_image = $imageName;
+        }
+
+        $product->save();
+
+        return redirect()->back()->with('success', 'Product Updated Successfully!');
     }
-
-    $product->save();
-
-    return redirect()->back()->with('success', 'Product Updated Successfully!');
-}
-public function viewOrders(){
-    $orders = Order::all();
-    return view('admin.vieworder', compact('orders'));
-}
-// THE END
+    public function viewOrders(){
+        $orders = Order::all();
+        return view('admin.vieworder', compact('orders'));
+    }
+    // THE END
 }

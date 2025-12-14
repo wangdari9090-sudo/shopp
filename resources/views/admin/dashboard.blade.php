@@ -2,43 +2,59 @@
 
 @section('dashboard')
 
-<div class="card shadow-sm" style="max-width: 1200px; margin: auto;">
-    <div class="card-header text-white" style="background:#2C3E50;">
-        Recent Posts
-    </div>
-    <div class="card-body p-0">
-        <table class="table mb-0">
-            <thead class="table-light">
-                <tr>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Date</th>
-                    <th style="width: 150px;">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>How to Stay Healthy in the Digital Age</td>
-                    <td>Health</td>
-                    <td>2025-01-20</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary">Edit</button>
-                        <button class="btn btn-sm btn-danger">Delete</button>
-                    </td>
-                </tr>
+<div class="container my-4">
 
-                <tr>
-                    <td>Top 10 Superfoods</td>
-                    <td>Health</td>
-                    <td>2025-01-18</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary">Edit</button>
-                        <button class="btn btn-sm btn-danger">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- Dashboard Summary Cards -->
+    <div class="row g-4 mb-4 justify-content-center">
+    <div class="col-12 col-md-6 col-lg-3">
+        <div class="card text-white bg-warning shadow-sm">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title">Orders</h5>
+                    <h3>{{ $ordersCount ?? 0 }}</h3>
+                </div>
+                <i class="bi bi-cart fs-1"></i>
+            </div>
+        </div>
     </div>
+
+    <div class="col-12 col-md-6 col-lg-3">
+        <div class="card text-white bg-success shadow-sm">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title">Products</h5>
+                    <h3>{{ $productsCount ?? 0 }}</h3>
+                </div>
+                <i class="bi bi-box-seam fs-1"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 col-md-6 col-lg-3">
+        <div class="card text-white bg-info shadow-sm">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title">Users</h5>
+                    <h3>{{ $usersCount ?? 0 }}</h3>
+                </div>
+                <i class="bi bi-people fs-1"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+        <div class="card text-white bg-primary shadow-sm">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title">Categories</h5>
+                    <h3>{{ $categoriesCount ?? 0 }}</h3>
+                </div>
+                <i class="bi bi-tags fs-1"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 </div>
 
 @endsection

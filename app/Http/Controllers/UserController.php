@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\ProductCart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +22,26 @@ class UserController extends Controller
 
             return view('admin.dashboard');
         }
+    }
+    public function dashboard()
+    {
+        $categoriesCount = Category::count();
+        $productsCount   = Product::count();
+        $ordersCount     = Order::count();
+        $usersCount      = User::count();
+
+        $categories = Category::all();
+        $products   = Product::with('category')->get();
+        $orders     = Order::with(['user','product'])->get();
+        return view('admin.dashboard', compact(
+            'categoriesCount',
+            'productsCount',
+            'ordersCount',
+            'usersCount',
+            'categories',
+            'products',
+            'orders'
+        ));
     }
     public function contact()
     {
@@ -42,9 +64,25 @@ class UserController extends Controller
         $collections = Product::inRandomOrder()
         ->take(6)
         ->get();
+        $categories = Category::all();
         return view('index',compact('products', 'collections', 'count'));
-
     }
+
+    public function categoryProducts($id)
+    {
+        if(Auth::check() && Auth::user()->user_type == 'user'){
+            $count = ProductCart::where('user_id', Auth::id())->count();
+        } else {
+            $count = 0;
+        }
+
+        $category = Category::findOrFail($id);
+
+        $products = Product::where('category_id', $id)->get();
+
+        return view('category_products', compact('category', 'products', 'count'));
+    }
+
    public function productDetails($id)
     {
         if(Auth::check() && Auth::user()->user_type == 'user'){

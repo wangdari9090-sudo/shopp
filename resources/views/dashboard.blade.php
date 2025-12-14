@@ -8,8 +8,14 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+                <div class="p-6 text-gray-900 flex flex-col items-start gap-4">
                     {{ __("You're logged in!") }}
+
+                    <!-- Button linking to index/home -->
+                    <a href="{{ route('index') }}"
+                       class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                        Go to Home
+                    </a>
                 </div>
             </div>
         </div>

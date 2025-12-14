@@ -26,6 +26,10 @@ Route::delete('remove_cart_product/{id}', [UserController::class, 'removeCartpro
 
 Route::post('/confirm_order', [UserController::class, 'confirmOrder'])->middleware(['auth', 'verified'])->name('confirm_order');
 
+Route::get('/category/{id}/products', [UserController::class, 'categoryProducts'])->name('category.products');
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -35,9 +39,14 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('admin')->group(function () {
     Route::get('/admin/dashboard', [UserController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/dashboard', [UserController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/add_category', [AdminController::class, 'addCategory'])->name('admin.addcategory');
 
     Route::post('/add_category', [AdminController::class, 'postAddCategory'])->name('admin.postaddcategory');
+
+    Route::get('/add_product', [AdminController::class, 'addProduct'])->name('admin.addproduct');
+    Route::post('/add_product', [AdminController::class, 'postAddProduct'])->name('admin.postaddproduct');
+
 
     Route::get('/view_category', [AdminController::class, 'viewCategory'])->name('admin.viewcategory');
 

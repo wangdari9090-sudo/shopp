@@ -22,7 +22,7 @@
         <table class="table table-striped table-bordered align-middle text-center">
             <thead class="table-dark">
                 <tr>
-                    <th style="width: 70px;">ID</th>
+                    <th style="width: 70px;">No.</th>
                     <th>Category Name</th>
                     <th style="width: 180px;">Actions</th>
                 </tr>
@@ -30,15 +30,15 @@
 
             <tbody>
 
-                @foreach ($categories as $cat)
+                @forelse ($categories as $key => $cat)
                     <tr>
-                        <td class="fw-bold">{{ $cat->id }}</td>
+                        <td>{{ $key + 1 }}</td>
                         <td class="text-start ps-3">{{ $cat->category }}</td>
 
                         <td>
-                            <a href="{{ route('admin.updatecategory', $cat->id) }}" class="btn btn-sm btn-primary px-3 me-1">
+                            {{-- <a href="{{ route('admin.updatecategory', $cat->id) }}" class="btn btn-sm btn-primary px-3 me-1">
                                 <i class="bi bi-pencil-square"></i>
-                            </a>
+                            </a> --}}
 
                             <a href="{{ route('admin.deletecategory', $cat->id) }}"
                             class="btn btn-sm btn-danger px-3"
@@ -47,8 +47,11 @@
                             </a>
                         </td>
 
-                    </tr>
-                @endforeach
+                     @empty
+                        <tr>
+                            <td colspan="8">No products found.</td>
+                        </tr>
+                    @endforelse
             </tbody>
 
         </table>

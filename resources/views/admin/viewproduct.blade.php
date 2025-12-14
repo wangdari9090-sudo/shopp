@@ -28,9 +28,9 @@
             <th>Image</th>
             <th>Title</th>
             <th>Description</th>
+            <th>Category</th>
             <th>Price</th>
             <th>Qty</th>
-            <th>Status</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -39,8 +39,6 @@
         @forelse($products as $key => $product)
             <tr>
                 <td>{{ $key + 1 }}</td>
-
-                {{-- Image --}}
                 <td>
                     @if($product->product_image)
                         <img src="{{ asset('storage/products/'.$product->product_image) }}"
@@ -50,31 +48,16 @@
                         <span class="text-muted">No Image</span>
                     @endif
                 </td>
-
-                {{-- Title --}}
                 <td>{{ $product->product_title }}</td>
-
-                {{-- Description --}}
                 <td class="text-truncate" style="max-width:150px;">
                     {{ $product->product_description ?? 'N/A' }}
                 </td>
-
-                {{-- Price --}}
-                <td>${{ number_format($product->product_price, 2) }}</td>
-
-                {{-- Quantity --}}
-                <td>{{ $product->product_quantity }}</td>
-
-                {{-- Status --}}
                 <td>
-                    @if($product->product_quantity > 0)
-                        <span class="badge bg-success">Active</span>
-                    @else
-                        <span class="badge bg-secondary">Inactive</span>
-                    @endif
+                    {{ $product->category->category ?? 'No Category' }}
                 </td>
 
-                {{-- Actions --}}
+                <td>${{ number_format($product->product_price, 2) }}</td>
+                <td>{{ $product->product_quantity }}</td>
                 <td>
                     <a href="{{ route('admin.updateproduct', $product->id) }}" class="btn btn-sm btn-primary">
                         <i class="bi bi-pencil-square"></i>

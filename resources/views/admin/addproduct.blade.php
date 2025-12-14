@@ -45,21 +45,19 @@
                         </div>
 
                         {{-- Category --}}
-                        {{-- <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Category</label>
-                            <select name="product_category" class="form-select">
-                            <option value="">-- Select Category --</option>
+                            <select name="category_id" class="form-select" required>
+                                <option value="">-- Select Category --</option>
 
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}"
-                                    {{ $product->product_category == $category->id ? 'selected' : '' }}>
-                                    {{ $category->category }}
-                                </option>
-                            @endforeach
-                        </select> --}}
-
-
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">
+                                        {{ $category->category }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
+
 
                         {{-- Price --}}
                         <div class="col-12 col-md-6">
