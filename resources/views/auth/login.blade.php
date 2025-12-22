@@ -1,46 +1,71 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('masterdesign')
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+@section('title', 'Login')
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+@section('login')
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-sm" style="width: 400px;">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4">Login to Your Account</h3>
+
+            <!-- Display Session Error -->
+           <div style="min-height: 50px;">
+    @if(session('error'))
+        <div class="alert alert-danger mb-3">
+            {{ session('error') }}
         </div>
+    @endif
+</div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                         autocomplete="current-password" />
+            <!-- Login Form -->
+            <form action="{{ route('login') }}" method="POST">
+                @csrf
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                 <!-- Email -->
+                <div class="mb-3">
+    <label for="email" class="form-label">Email address</label>
+    <input type="email"
+           name="email"
+           class="form-control @error('email') is-invalid @enderror"
+           id="email"
+           value="{{ old('email') }}">
+
+    <div class="invalid-feedback d-block" style="min-height: 20px;">
+        @error('email') {{ $message }} @enderror
+    </div>
+</div>
+
+
+                <!-- Password -->
+                <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input type="password"
+           name="password"
+           class="form-control @error('password') is-invalid @enderror"
+           id="password">
+
+    <div class="invalid-feedback d-block" style="min-height: 20px;">
+        @error('password') {{ $message }} @enderror
+    </div>
+</div>
+
+
+                <!-- Remember Me -->
+                <!-- <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                    <label class="form-check-label" for="remember">Remember Me</label>
+                </div> -->
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+
+            <!-- Register Link -->
+            <p class="mt-3 text-center">
+                Don't have an account? <a href="{{ route('register') }}">Register</a>
+            </p>
         </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" 
-             href="{{ route('register') }}">
-                {{ __('Don\'t have an account? Register here') }}
-            </a>
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+</div>
+@endsection

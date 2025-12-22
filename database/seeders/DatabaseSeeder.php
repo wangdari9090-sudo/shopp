@@ -41,15 +41,5 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
-
-        User::firstOrCreate(
-            ['email' => 'user3@gmail.com'],
-            [
-                'name' => 'User Three',
-                'user_type' => 'user',
-                'password' => Hash::make('user123'),
-                'email_verified_at' => now(),
-            ]
-        );
     }
 }

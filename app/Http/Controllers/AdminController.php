@@ -108,9 +108,10 @@ class AdminController extends Controller
     }
 
     public function viewProduct(Category $category){
-        $products = Product::with('category')->paginate(5);
+        $products = Product::with('category')->paginate(4);
         return view('admin.viewproduct',compact('products'));
     }
+
     public function deleteProduct($id)
     {
     $product = Product::findOrFail($id);
@@ -124,7 +125,6 @@ class AdminController extends Controller
             Storage::disk('public')->delete($file);
         }
     }
-
 
     if ($product->product_image && Storage::disk('public')->exists('products/'.$product->product_image)) {
         Storage::disk('public')->delete('products/'.$product->product_image);
@@ -197,7 +197,4 @@ class AdminController extends Controller
         return redirect()->back()->with('error', 'Invalid status');
     }
 
-
-
-    // THE END
 }

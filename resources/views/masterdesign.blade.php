@@ -38,13 +38,13 @@
                 <li class="nav-item"><a class="nav-link fs-6" href="{{ route('contact') }}">Contact</a></li>
                 
                 @if(Auth::check())
-                    <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('user.dashboard') }}">Dashboard</a></li>
                 @else
                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                     {{-- <li class="nav-item"><a class="nav-link btn btn-primary px-3 rounded-pill" href="{{ route('register') }}">Sign Up</a></li> --}}
                 @endif
                 <li class="nav-item position-relative">
-                    <a href="{{ route('viewcart', 'id') }}" class="nav-link p-0 position-relative d-inline-block">
+                    <a href="{{ route('cart.view', 'id') }}" class="nav-link p-0 position-relative d-inline-block">
 
                         <!-- Cart Icon -->
                         <i class="bi bi-cart fs-4"></i>
@@ -66,6 +66,8 @@
 <main class="pt-5 pb-5">
     <section class="container my-5">
         @yield('index')
+        @yield('user_dashboard')
+        @yield('login')
         @yield('product_details')
         @yield('view_cart')
         @yield('checkout')

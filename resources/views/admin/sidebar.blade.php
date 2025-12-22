@@ -17,8 +17,8 @@
             </a>
 
             <ul class="collapse list-unstyled ps-4" id="categoryMenu">
-                <li><a href="{{ route('admin.addcategory') }}" class="dropdown-item-side">➤ Add Category</a></li>
-                <li><a href="{{ route('admin.viewcategory') }}" class="dropdown-item-side">➤ View Categories</a></li>
+                <li><a href="{{ route('admin.categories.create') }}" class="dropdown-item-side">➤ Add Category</a></li>
+                <li><a href="{{ route('admin.categories.index') }}" class="dropdown-item-side">➤ View Categories</a></li>
             </ul>
         </li>
 
@@ -39,14 +39,14 @@
                 <i class="bi bi-box-seam me-2"></i> Products
             </a>
             <ul class="collapse list-unstyled ps-4" id="productMenu">
-                <li><a href="{{ route('admin.addproduct') }}" class="dropdown-item-side">➤ Add Product</a></li>
-                <li><a href="{{ route('admin.viewproduct') }}" class="dropdown-item-side">➤ View Products</a></li>
+                <li><a href="{{ route('admin.products.create') }}" class="dropdown-item-side">➤ Add Product</a></li>
+                <li><a href="{{ route('admin.products.index') }}" class="dropdown-item-side">➤ View Products</a></li>
             </ul>
         </li>
 
         <!-- Orders -->
         <li class="nav-item mb-1">
-            <a class="nav-link text-white sidebar-link" href="{{ route('admin.vieworders') }}">
+            <a class="nav-link text-white sidebar-link" href="{{ route('admin.orders.index') }}">
                 <i class="bi bi-basket me-2"></i> Orders
             </a>
         </li>
