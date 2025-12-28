@@ -97,7 +97,7 @@
 
     {{-- Bottom Section: Related --}}
     <hr class="my-5 opacity-25">
-    <h4 class="fw-bold mb-5 text-center text-uppercase tracking-widest">Related Timepieces</h4>
+    <h4 class="fw-bold mb-5 text-center text-uppercase tracking-widest">Related Products</h4>
     
     <div class="row g-4">
         @foreach($related as $item)

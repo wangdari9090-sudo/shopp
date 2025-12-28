@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')
                   ->constrained()
                   ->cascadeOnDelete();
+            $table->integer('user_order_number');
             $table->decimal('total_price', 10, 2);
             $table->string('status')->default('pending');
             $table->string('receiver_address');

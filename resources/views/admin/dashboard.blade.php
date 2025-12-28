@@ -93,7 +93,6 @@
             <small class="text-muted">{{ $order->receiver_phone }}</small>
         </td>
         <td class="small text-muted">
-            {{-- Displaying first item name and count if more than one --}}
             @if($order->items->count() > 0)
                 {{ $order->items->first()->product->product_title }}
                 @if($order->items->count() > 1)
@@ -102,25 +101,24 @@
             @endif
         </td>
         <td class="fw-bold text-dark">${{ number_format($order->total_price, 2) }}</td>
-      <th style="width: 180px;">Status</th> <td style="width: 180px;"> <form action="{{ route('admin.updateOrderStatus', $order->id) }}" method="POST" id="status-form-{{ $order->id }}">
-        @csrf
-        <select name="status" 
-                onchange="this.form.submit()"
-                class="form-select form-select-sm fw-bold border-0 
-                {{ $order->status == 'pending' ? 'bg-warning text-dark' : '' }}
-                {{ $order->status == 'on_the_way' ? 'bg-info text-white' : '' }}
-                {{ $order->status == 'delivered' ? 'bg-success text-white' : '' }}" 
-                style="border-radius: 8px; cursor: pointer; width: 100%;"> <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>⏳ Processing</option>
-            <option value="on_the_way" {{ $order->status == 'on_the_way' ? 'selected' : '' }}>🚚 Shipped</option>
-            <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>✅ Delivered</option>
-        </select>
-    </form>
-</td>
-        {{-- <td class="text-end">
-            <a href="{{ url('admin/view_order_details/'.$order->id) }}" class="btn btn-sm btn-outline-dark" style="border-radius: 8px;">
-                <i class="bi bi-eye"></i> View
-            </a>
-        </td> --}}
+        
+        {{-- Status Column - Fixed the <th> tag error here --}}
+        <td style="width: 180px;"> 
+            <form action="{{ route('admin.updateOrderStatus', $order->id) }}" method="POST">
+                @csrf
+                <select name="status" 
+                        onchange="this.form.submit()"
+                        class="form-select form-select-sm fw-bold border-0 
+                        {{ $order->status == 'pending' ? 'bg-warning text-dark' : '' }}
+                        {{ $order->status == 'on_the_way' ? 'bg-info text-white' : '' }}
+                        {{ $order->status == 'delivered' ? 'bg-success text-white' : '' }}" 
+                        style="border-radius: 8px; cursor: pointer;">
+                    <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>⏳ Processing</option>
+                    <option value="on_the_way" {{ $order->status == 'on_the_way' ? 'selected' : '' }}>🚚 Shipped</option>
+                    <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>✅ Delivered</option>
+                </select>
+            </form>
+        </td>
     </tr>
     @endforeach
 </tbody>

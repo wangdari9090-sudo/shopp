@@ -53,7 +53,7 @@
                             {{-- Description --}}
                             <div class="col-12">
                                 <label class="form-label fw-bold" style="color: var(--forest);">Product Description</label>
-                                <textarea name="product_description" class="form-control" rows="4" 
+                                <textarea name="product_description" class="form-control" rows="2" 
                                           placeholder="Describe the product features...">{{ old('product_description') }}</textarea>
                             </div>
 

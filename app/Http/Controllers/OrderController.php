@@ -109,50 +109,46 @@ public function confirmOrder(Request $request)
         return redirect()->back()->with('error', 'Your selection is empty.');
     }
 
-    $order = Order::firstOrCreate(
-        [
-            'user_id' => $userId,
-            'status'  => 'pending' 
-        ],
-        [
-            'receiver_address' => $request->receiver_address,
-            'receiver_phone'   => $request->receiver_phone,
-            'total_price'      => 0, 
-        ]
-    );
-    $order->update([
-        'receiver_address' => $request->receiver_address,
-        'receiver_phone'   => $request->receiver_phone,
+    // --- NEW: Calculate the User's Next Order Number ---
+    $lastOrder = Order::where('user_id', $userId)
+                      ->latest('user_order_number')
+                      ->first();
+    $nextNumber = $lastOrder ? $lastOrder->user_order_number + 1 : 1;
+    // ---------------------------------------------------
+
+    // 1. Create a NEW unique order (Voucher)
+    $order = Order::create([
+        'user_id'           => $userId,
+        'user_order_number' => $nextNumber, // The #1, #2, #3 sequence
+        'receiver_address'  => $request->receiver_address,
+        'receiver_phone'    => $request->receiver_phone,
+        'total_price'       => 0, 
+        'status'            => 'confirmed'
     ]);
 
-    $runningTotal = $order->total_price;
+    $runningTotal = 0;
 
+    // 2. Move Cart Items to Order Items
     foreach ($cartItems as $cartItem) {
-        $existingItem = OrderItem::where('order_id', $order->id)
-                                 ->where('product_id', $cartItem->product_id)
-                                 ->first();
-
-        if ($existingItem) {
-            $existingItem->increment('quantity', $cartItem->quantity);
-        } else {
-            OrderItem::create([
-                'order_id'   => $order->id,
-                'product_id' => $cartItem->product_id,
-                'quantity'   => $cartItem->quantity,
-                'price'      => $cartItem->product->product_price,
-            ]);
-        }
+        OrderItem::create([
+            'order_id'   => $order->id,
+            'product_id' => $cartItem->product_id,
+            'quantity'   => $cartItem->quantity,
+            'price'      => $cartItem->product->product_price,
+        ]);
 
         $runningTotal += ($cartItem->product->product_price * $cartItem->quantity);
+        
+        // Stock management
         $cartItem->product->decrement('product_quantity', $cartItem->quantity);
+        
+        // Clear cart
         $cartItem->delete();
     }
 
-    $order->update([
-        'total_price' => $runningTotal,
-        'status' => 'confirmed'
-    ]);
+    // 3. Finalize total
+    $order->update(['total_price' => $runningTotal]);
 
-    return redirect()->route('index')->with('success', 'Order updated in your active voucher.');
+    return redirect()->route('index')->with('success', 'Order Placed! Voucher #' . $nextNumber);
 }
 }

@@ -5,7 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model {
-    protected $fillable = ['user_id', 'total_price', 'status', 'receiver_address', 'receiver_phone'];
+    protected $fillable = [
+    'user_id', 
+    'user_order_number',
+    'total_price', 
+    'status', 
+    'receiver_address', 
+    'receiver_phone'];
 
     public function product()
     {
