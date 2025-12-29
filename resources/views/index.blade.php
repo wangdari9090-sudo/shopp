@@ -106,13 +106,14 @@
     </div>
 </section>
 
-<section id="best-sellers" class="py-5 bg-light">
-    <div class="container">
+<section class="py-5 bg-light">
+    <div class="container" id="best-seller-section"> 
         <div class="mb-5 text-center">
             <h2 class="section-title-luxury mb-0">Best Sellers</h2>
             <p class="text-success fw-bold small text-uppercase tracking-widest">Most Wanted Timepieces</p>
         </div>
 
+        <div id="product-data-container">
         <div class="row g-4">
            @foreach($products as $product)
 <div class="col-6 col-md-4 col-lg-3">
@@ -162,11 +163,12 @@
 @endforeach
         </div>
         <div class="d-flex justify-content-between align-items-center p-4 border-top mt-4">
-            <div class="small text-muted">
-                Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} products
-            </div>
-            <div class="luxury-pagination">
-                {{ $products->links('pagination::bootstrap-5') }}
+                <div class="small text-muted">
+                    Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} products
+                </div>
+                <div class="luxury-pagination mt-4">
+                    {{ $products->appends(request()->query())->links('pagination::bootstrap-5') }}
+                </div>
             </div>
         </div>
     </div>
@@ -231,39 +233,65 @@
     
 </section>
 
-
-{{-- <section id="best-sellers" class="py-5 bg-light">
-    <div class="container">
-        <div class="mb-5 text-center">
-            <h2 class="section-title-luxury mb-0">Smart Watches</h2>
-            <p class="text-success fw-bold small text-uppercase tracking-widest">Most Wanted Timepieces</p>
-        </div>
-
-        <div class="row g-4">
-            @forelse($products as $product)
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="card h-100">
-                        @php
-                            $img = is_array($product->product_image) ? $product->product_image[0] : $product->product_image;
-                        @endphp
-                        <img src="{{ asset('storage/products/'.$img) }}" class="card-img-top">
-                        <div class="card-body">
-                            <h6>{{ $product->product_title }}</h6>
-                            <p class="text-success">${{ number_format($product->product_price, 2) }}</p>
-                        </div>
-                    </div>
-                </div>
-            @empty
-                <div class="col-12 text-center">
-                    <p>No products found in this category.</p>
-                </div>
-            @endforelse
-        </div>
-    </div>
-</section> --}}
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+$(document).ready(function() {
+    
+    function initializeCarousels() {
+        const carousels = document.querySelectorAll('.carousel');
+        
+        carousels.forEach(carouselEl => {
+            const existingInstance = bootstrap.Carousel.getInstance(carouselEl);
+            if (existingInstance) {
+                existingInstance.dispose();
+            }
+
+            const newCarousel = new bootstrap.Carousel(carouselEl, {
+                interval: 1800,
+                ride: 'carousel',
+                pause: 'hover'
+            });
+            
+            newCarousel.cycle(); 
+        });
+    }
+
+    initializeCarousels();
+
+    $(document).on('click', '.luxury-pagination a', function(event) {
+        event.preventDefault();
+        
+        let url = $(this).attr('href');
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            beforeSend: function() {
+                $('#product-data-container').animate({ opacity: 0.4 }, 200);
+            },
+            success: function(data) {
+                $('#product-data-container').html(data).animate({ opacity: 1 }, 200);
+
+                if ($("#best-seller-section").length) {
+                    $('html, body').animate({
+                        scrollTop: $("#best-seller").offset().top - 70
+                    }, 100);
+                }
+
+                setTimeout(function() {
+                    initializeCarousels();
+                }, 150); 
+            },
+            error: function() {
+                $('#product-data-container').css('opacity', '1');
+                alert('Products could not be loaded.');
+            }
+        });
+    });
+});
+</script>
+@endsection
+
+{{-- document.addEventListener('DOMContentLoaded', function() {
         var myCarousel = document.querySelector('#arrivalCarousel');
         if (myCarousel) {
             new bootstrap.Carousel(myCarousel, {
@@ -272,6 +300,4 @@
                 pause: 'hover'
             });
         }
-    });
-</script>
-@endsection
+    }); --}}
